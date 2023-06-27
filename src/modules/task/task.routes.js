@@ -1,5 +1,11 @@
 const express = require("express");
-const getAllTask = require("./task.controller");
+const {
+  getAllTask,
+  createTask,
+  getTask,
+  updateTask,
+  deleteTask,
+} = require("./task.controller");
 
 const router = express.Router();
 
@@ -7,26 +13,15 @@ const router = express.Router();
 router.get("/", getAllTask);
 
 //Create a New Task
-router.post("/", (req, res, next) => {
-  res.json({ status: 200, msg: "Create New Task." });
-});
+router.post("/", createTask);
 
 //Get a single task
-router.get("/:id", (req, res, next) => {
-  res.json({
-    status: 200,
-    msg: `Get a Single Task with id: ${req.params.id}.`,
-  });
-});
+router.get("/:id", getTask);
 
 //Update a task
-router.put("/:id", (req, res, next) => {
-  res.json({ status: 200, msg: `Update a Task with id: ${req.params.id}.` });
-});
+router.put("/:id", updateTask);
 
 //Delete a task
-router.delete("/:id", (req, res, next) => {
-  res.json({ status: 200, msg: `Delete a Task with id: ${req.params.id}.` });
-});
+router.delete("/:id", deleteTask);
 
 module.exports = router;
