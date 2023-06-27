@@ -1,11 +1,10 @@
 const express = require("express");
+const getAllTask = require("./task.controller");
 
 const router = express.Router();
 
 //Get All Tasks
-router.get("/", (req, res, next) => {
-  res.json({ status: 200, msg: "All Tasks lists." });
-});
+router.get("/", getAllTask);
 
 //Create a New Task
 router.post("/", (req, res, next) => {
