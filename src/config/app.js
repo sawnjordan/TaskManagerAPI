@@ -13,13 +13,24 @@ app.use("/api/v1/", router);
 app.use((err, req, res, next) => {
   console.log(err);
   if (err.name === "CastError") {
-    return res.status(500).json({
-      status: 500,
+    return res.status(401).json({
+      status: 401,
+      err: err,
       msg: `Invalid value ${err.value} for field: ${err.path}`,
     });
   }
 
-  res.status(500).json({ status: 500, msg: "Internal Server Error." });
+  if (err.name === "ValidationError") {
+    return res.status(401).json({
+      status: 401,
+      err: err,
+      msg: err.message,
+    });
+  }
+
+  res
+    .status(500)
+    .json({ status: 500, msg: "Internal Server Error.", err: err });
 });
 
 module.exports = app;

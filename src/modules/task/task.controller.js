@@ -41,7 +41,7 @@ const createTask = async (req, res, next) => {
 
 const getTask = async (req, res, next) => {
   try {
-    let taskId = req.params.id;
+    const taskId = req.params.id;
     let response = await taskModel.findOne({ _id: taskId });
     res.json({
       status: 200,
@@ -53,16 +53,27 @@ const getTask = async (req, res, next) => {
   }
 };
 
-const updateTask = (req, res, next) => {
-  res.json({
-    status: 200,
-    msg: " This is to update the task.",
-  });
+const updateTask = async (req, res, next) => {
+  try {
+    const taskId = req.params.id;
+    const data = req.body;
+    const response = await taskModel.findByIdAndUpdate({ _id: taskId }, data, {
+      new: true,
+      runValidators: true,
+    });
+    res.json({
+      status: 200,
+      msg: `Task Updated with new name: ${data.name}`,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 };
 
 const deleteTask = async (req, res, next) => {
   try {
-    let taskId = req.params.id;
+    const taskId = req.params.id;
     let response = await taskModel.findOneAndDelete({ _id: taskId });
     res.json({
       status: 200,
