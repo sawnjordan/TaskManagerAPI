@@ -15,7 +15,7 @@ app.use((err, req, res, next) => {
   if (err.name === "CastError") {
     return res.status(500).json({
       status: 500,
-      msg: `Invalid value for ${err.value} for field: ${err.path}`,
+      msg: `Invalid value ${err.value} for field: ${err.path}`,
     });
   }
 

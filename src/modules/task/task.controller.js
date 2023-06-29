@@ -32,7 +32,7 @@ const createTask = async (req, res, next) => {
     console.log(response);
     res.json({
       status: 200,
-      msg: `Task Name: ${response.name}.`,
+      msg: `Task Name: ${response.name} created.`,
     });
   } catch (error) {
     console.log(error);
@@ -60,11 +60,18 @@ const updateTask = (req, res, next) => {
   });
 };
 
-const deleteTask = (req, res, next) => {
-  res.json({
-    status: 200,
-    msg: " This is to delete the task.",
-  });
+const deleteTask = async (req, res, next) => {
+  try {
+    let taskId = req.params.id;
+    let response = await taskModel.findOneAndDelete({ _id: taskId });
+    res.json({
+      status: 200,
+      msg: `Task: ${response.name} deleted.`,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 };
 
 module.exports = { getAllTask, createTask, getTask, updateTask, deleteTask };
