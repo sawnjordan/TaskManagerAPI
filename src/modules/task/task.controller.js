@@ -39,11 +39,18 @@ const createTask = async (req, res, next) => {
   }
 };
 
-const getTask = (req, res, next) => {
-  res.json({
-    status: 200,
-    msg: "This is request to get a task.",
-  });
+const getTask = async (req, res, next) => {
+  try {
+    let taskId = req.params.id;
+    let response = await taskModel.findOne({ _id: taskId });
+    res.json({
+      status: 200,
+      msg: response,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 };
 
 const updateTask = (req, res, next) => {

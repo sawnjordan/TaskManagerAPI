@@ -10,4 +10,16 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/v1/", router);
 
+app.use((err, req, res, next) => {
+  console.log(err);
+  if (err.name === "CastError") {
+    return res.status(500).json({
+      status: 500,
+      msg: `Invalid value for ${err.value} for field: ${err.path}`,
+    });
+  }
+
+  res.status(500).json({ status: 500, msg: "Internal Server Error." });
+});
+
 module.exports = app;
